@@ -1,0 +1,32 @@
+OpenEXR-Handling
+================
+
+Author: 	Andrew Chalmers
+
+Basic I/O for OpenEXR images. 
+
+Usage:
+make clean
+make
+./bin/exrExample [filename.exr]
+
+Output:
+original_float1.exr 
+original_float2.exr 
+original_half.exr 
+original_rgba.exr 
+
+Example Usage:
+./bin/exrExample images/example.exr
+
+TODO:
+  - Tiled images
+  - Cropped images
+  - Deep scanline I/O
+  - Multithreaded I/O
+  - Currently assumes alpha
+
+Resources:
+ - http://www.openexr.com/TechnicalIntroduction.pdf
+ - http://www.openexr.com/ReadingAndWritingImageFiles.pdf
+ - https://github.com/openexr/openexr/blob/master/OpenEXR/IlmImfExamples/generalInterfaceExamples.cpp
