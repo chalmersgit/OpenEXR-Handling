@@ -42,14 +42,14 @@ void imageio::insert(FrameBuffer& frameBuffer, char const* name, const PixelType
 }
 
 // help for writing
-void setHeader(Header &header, const PixelType type){
+void imageio::setHeader(Header &header, const PixelType type){
     header.channels().insert ("R", Channel (type));
     header.channels().insert ("G", Channel (type));
     header.channels().insert ("B", Channel (type));
     header.channels().insert ("A", Channel (type));
 }
 
-void writeData(OutputFile &oFile, FrameBuffer &frameBuffer, const int height){
+void imageio::writeData(OutputFile &oFile, FrameBuffer &frameBuffer, const int height){
     oFile.setFrameBuffer(frameBuffer);
     oFile.writePixels (height);
 }

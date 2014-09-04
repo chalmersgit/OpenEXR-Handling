@@ -30,6 +30,9 @@ class imageio{
 private:
   static void insert(FrameBuffer& frameBuffer, char const* name, const PixelType type, char* base, const int xStride, const int yStride);
   
+  static void setHeader(Header &header, const PixelType type);
+  static void writeData(OutputFile &oFile, FrameBuffer &frameBuffer, const int height);
+
   static void setup_readFile(InputFile &iFile, Imath::Box2i &dw, int &width, int &height, bool &hasAlpha);
   static void close_readFile(InputFile &iFile, FrameBuffer &frameBuffer, Imath::Box2i &dw);
 
