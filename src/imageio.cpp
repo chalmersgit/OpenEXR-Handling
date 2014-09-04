@@ -1,7 +1,7 @@
 /*
 Author: Andrew Chalmers
 
-Basic I/O for OpenEXR images. 
+Basic I/O for OpenEXR images.
 
 TODO:
   - Tiled images
@@ -59,7 +59,7 @@ void imageio::setup_readFile(InputFile &iFile, Box2i &dw, int &width, int &heigh
   dw = iFile.header().dataWindow();
   width = dw.max.x - dw.min.x + 1;
   height = dw.max.y - dw.min.y + 1;
-  hasAlpha = true;       
+  hasAlpha = true;
 }
 
 void imageio::close_readFile(InputFile &iFile, FrameBuffer &frameBuffer, Box2i &dw){
@@ -75,9 +75,9 @@ void imageio::close_readFile(InputFile &iFile, FrameBuffer &frameBuffer, Box2i &
  * Writing EXR Image
  */
 void imageio::WriteEXR_Rgba(
-  const char *fileName, 
-  const Rgba *pixels, 
-  const int width, 
+  const char *fileName,
+  const Rgba *pixels,
+  const int width,
   const int height){
   try {
     RgbaOutputFile file (fileName, width, height, WRITE_RGBA);
@@ -89,8 +89,8 @@ void imageio::WriteEXR_Rgba(
 }
 
 void imageio::writeEXR_float(
-  const char *fileName, 
-  const float *frgba, 
+  const char *fileName,
+  const float *frgba,
   const int width, const int height){
   try {
     Header header(width, height);
@@ -113,12 +113,12 @@ void imageio::writeEXR_float(
 }
 
 void imageio::writeEXR_float(
-  const char *fileName, 
-  const float *rPixels, 
-  const float *gPixels, 
-  const float *bPixels, 
-  const float *aPixels, 
-  const int width, 
+  const char *fileName,
+  const float *rPixels,
+  const float *gPixels,
+  const float *bPixels,
+  const float *aPixels,
+  const int width,
   const int height){
   try {
     Header header (width, height);
@@ -141,9 +141,9 @@ void imageio::writeEXR_float(
 }
 
 void imageio::writeEXR_half(
-  const char *fileName, 
-  const half *rgba, 
-  const int width, 
+  const char *fileName,
+  const half *rgba,
+  const int width,
   const int height){
   try {
     Header header (width, height);
@@ -153,7 +153,7 @@ void imageio::writeEXR_half(
     FrameBuffer frameBuffer;
 
     const int yStride4h = width * xStride4h;
-    
+
     insert(frameBuffer,"R",HALF,(char *)rgba,           xStride4h, yStride4h);
     insert(frameBuffer,"G",HALF,(char *)rgba+offseth,   xStride4h, yStride4h);
     insert(frameBuffer,"B",HALF,(char *)rgba+2*offseth, xStride4h, yStride4h);
@@ -165,14 +165,14 @@ void imageio::writeEXR_half(
   }
 }
 
-// EXR doesn't support double (?). 
+// EXR doesn't support double (?).
 // But if you were handling doubles, this will convert and output as float for you.
 void imageio::writeEXR_double(
-    const char *fileName, 
-    const double *rPixelsD, 
-    const double *gPixelsD, 
-    const double *bPixelsD, 
-    const int width, 
+    const char *fileName,
+    const double *rPixelsD,
+    const double *gPixelsD,
+    const double *bPixelsD,
+    const int width,
     const int height){
   try {
     float* rPixels = new float[width*height];
@@ -181,9 +181,9 @@ void imageio::writeEXR_double(
     float* aPixels = new float[width*height];
 
     for(int i = 0; i < width*height; ++i){
-      rPixels[i] = (float)rPixels[i];
-      gPixels[i] = (float)gPixels[i];
-      bPixels[i] = (float)bPixels[i];
+      rPixels[i] = (float)rPixelsD[i];
+      gPixels[i] = (float)gPixelsD[i];
+      bPixels[i] = (float)bPixelsD[i];
       aPixels[i] = 1.0f;
     }
 
@@ -224,11 +224,11 @@ void imageio::ReadEXR_float(const char *fileName, float *&rgba, int &width, int 
     InputFile file(fileName);
     Box2i dw;
     setup_readFile(file, dw, width, height, hasAlpha);
-    
+
     FrameBuffer frameBuffer;
     rgba = new float[channels4 * width * height];
     const int yStride4f = width * xStride4f;
-    
+
     insert(frameBuffer,"R",FLOAT,(char *)rgba,          xStride4f, yStride4f);
     insert(frameBuffer,"G",FLOAT,(char *)rgba+offsetf,  xStride4f, yStride4f);
     insert(frameBuffer,"B",FLOAT,(char *)rgba+2*offsetf,xStride4f, yStride4f);
@@ -245,20 +245,20 @@ void imageio::ReadEXR_float(const char *fileName, float *&rPixels, float *&gPixe
     InputFile file(fileName);
     Box2i dw;
     setup_readFile(file, dw, width, height, hasAlpha);
-    
+
     FrameBuffer frameBuffer;
 
     rPixels = new float[width * height];
     gPixels = new float[width * height];
     bPixels = new float[width * height];
     aPixels = new float[width * height];
-    
+
     const int yStride1f = width * xStride1f;
     insert(frameBuffer,"R",FLOAT,(char *)rPixels, xStride1f, yStride1f);
     insert(frameBuffer,"G",FLOAT,(char *)gPixels, xStride1f, yStride1f);
     insert(frameBuffer,"B",FLOAT,(char *)bPixels, xStride1f, yStride1f);
-    insert(frameBuffer,"A",FLOAT,(char *)aPixels, xStride1f, yStride1f);                                 
-    
+    insert(frameBuffer,"A",FLOAT,(char *)aPixels, xStride1f, yStride1f);
+
     close_readFile(file, frameBuffer, dw);
   } catch (const std::exception &e) {
       fprintf(stderr, "Unable to read image file \"%s\": %s", fileName, e.what());
@@ -270,12 +270,12 @@ void imageio::ReadEXR_half(const char *fileName, half *&hrgba, int &width, int &
     InputFile file(fileName);
     Box2i dw;
     setup_readFile(file, dw, width, height, hasAlpha);
-    
+
     FrameBuffer frameBuffer;
     hrgba = new half[channels4 * width * height];
-    
-    const int yStride4h = width * xStride4h;    
-    
+
+    const int yStride4h = width * xStride4h;
+
     insert(frameBuffer,"R",HALF,(char *)hrgba,           xStride4h, yStride4h);
     insert(frameBuffer,"G",HALF,(char *)hrgba+offseth,   xStride4h, yStride4h);
     insert(frameBuffer,"B",HALF,(char *)hrgba+2*offseth, xStride4h, yStride4h);
