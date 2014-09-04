@@ -15,9 +15,6 @@ $(BIN)exrExample: $(BIN)main.o $(BIN)imageio.o
 	
 $(BIN)%.o: $(SRC)%.cpp
 	$(CC) $(CFLAGS) -c -o $@ $^ $(IPATH)	
-	
-clean:
-	$(RM) -f *.o *.gch exrExample
 
 clean:
 	$(RM) -f $(BIN)*.o $(BIN)*.gch $(BIN)exrExample
