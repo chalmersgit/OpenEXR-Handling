@@ -38,10 +38,10 @@ void doExample(const char *fileName){
 
 	Array2D<Rgba> pixels;
 
-	float* rPixels = new float[width*height];
-	float* gPixels = new float[width*height];
-	float* bPixels = new float[width*height];
-	float* aPixels = new float[width*height];
+	float* rPixels;
+	float* gPixels;
+	float* bPixels;
+	float* aPixels;
 
 	float* fPixels;
 
@@ -60,6 +60,14 @@ void doExample(const char *fileName){
 	imageio::writeEXR_float("original_float1.exr", fPixels, width, height);
 	imageio::writeEXR_float("original_float2.exr", rPixels, gPixels, bPixels, aPixels, width, height);
 	imageio::writeEXR_half("original_half.exr", hPixels, width, height);
+	
+	// clean up
+	delete[] rPixels;
+	delete[] gPixels;
+	delete[] bPixels;
+	delete[] aPixels;
+	delete[] fPixels;
+	delete[] hPixels;
 	
 	cout << "Complete" << endl;
 }
